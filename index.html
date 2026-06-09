@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Center | Personal Dashboard</title>
+  <meta name="description" content="A premium, glassmorphic dark-mode dashboard featuring an F1 countdown, Tag Heuer watch face, Pomodoro focus timer, weather forecast, and interactive task manager.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Google Fonts: Outfit and JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- PWA Support -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="F1 HUD">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <script type="module" crossorigin src="./assets/index-DnOTntGQ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CblrBRyn.css">
+</head>
+<body>
+  <!-- Ambient background glow spots -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="app-container">
+    
+    <!-- ROW 1: CLOCK & WEATHER (6-column split) -->
+    <div class="dashboard-row row-top">
+      
+      <!-- Clock Widget (Top-Left, Glass Card) -->
+      <div class="glass-card-wrapper clock-wrapper">
+        <section class="widget-card clock-widget glass-card">
+          <div class="analog-clock-container">
+            <!-- Outer HUD Arcs -->
+            <div class="hud-arc hud-arc-left"></div>
+            <div class="hud-arc hud-arc-right"></div>
+            
+            <div class="cyber-analog-clock" id="header-analog-clock">
+              <div class="clock-face">
+                <!-- Cyber Tech Rings -->
+                <div class="tech-ring tech-ring-1"></div>
+                <div class="tech-ring tech-ring-2"></div>
+                <div class="tech-ring tech-ring-3"></div>
+
+                <!-- Cyber Baton Markers -->
+                <div class="cyber-marker marker-12"></div>
+                <div class="cyber-marker marker-1"></div>
+                <div class="cyber-marker marker-2"></div>
+                <div class="cyber-marker marker-3"></div>
+                <div class="cyber-marker marker-4"></div>
+                <div class="cyber-marker marker-5"></div>
+                <div class="cyber-marker marker-6"></div>
+                <div class="cyber-marker marker-7"></div>
+                <div class="cyber-marker marker-8"></div>
+                <div class="cyber-marker marker-9"></div>
+                <div class="cyber-marker marker-10"></div>
+                <div class="cyber-marker marker-11"></div>
+
+                <!-- ticking hands -->
+                <div class="cyber-hand hour-hand" id="header-hour-hand"></div>
+                <div class="cyber-hand minute-hand" id="header-minute-hand"></div>
+                <div class="cyber-hand second-hand" id="header-second-hand"></div>
+                <div class="cyber-center"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="digital-clock-container">
+            <div class="digital-time mono" id="header-digital-time">00:00:00 PM</div>
+            <div class="digital-date" id="header-digital-date">01/01/2026</div>
+            <div class="digital-day" id="header-digital-day">SUN</div>
+            <div class="timezone-selector-container">
+              <select id="clock-timezone-select" class="cyber-select" aria-label="System Clock Timezone">
+                <option value="local">LOCAL (AUTO)</option>
+                <option value="UTC">UTC / GMT</option>
+                <option value="America/New_York">NEW YORK (EST)</option>
+                <option value="Europe/London">LONDON (GMT)</option>
+                <option value="Europe/Paris">PARIS (CET)</option>
+                <option value="Asia/Dubai">DUBAI (GST)</option>
+                <option value="Asia/Kolkata">KOLKATA (IST)</option>
+                <option value="Asia/Singapore">SINGAPORE (SGT)</option>
+                <option value="Asia/Tokyo">TOKYO (JST)</option>
+                <option value="Australia/Sydney">SYDNEY (AEST)</option>
+              </select>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Weather Widget (Top-Right, Glass Card) -->
+      <div class="glass-card-wrapper weather-wrapper">
+        <section class="widget-card weather-widget glass-card">
+          <div class="weather-main">
+            <!-- Flat cyber weather icon -->
+            <div class="weather-icon-side">
+              <div class="cyber-sun" id="weather-sun-icon">
+                <div class="sun-glow"></div>
+              </div>
+              <!-- Cloud svg overlay -->
+              <div class="cyber-cloud hidden" id="weather-cloud-icon">
+                <svg viewBox="0 0 100 60" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M20 45 C10 45, 5 35, 12 25 C10 15, 25 5, 40 10 C50 0, 75 5, 80 20 C90 20, 95 30, 88 40 C95 50, 80 55, 70 50 C60 60, 30 60, 20 45 Z" fill="rgba(0, 176, 255, 0.1)"/>
+                </svg>
+              </div>
+            </div>
+            
+            <div class="weather-temp-side">
+              <div class="weather-city-header">
+                <span id="weather-city">San Francisco</span><span class="unit-toggle-indicator" id="weather-unit-btn" title="Toggle C/F">°C</span>
+              </div>
+              <div class="weather-temp" id="weather-temp">--°C</div>
+            </div>
+          </div>
+
+          <!-- Details Grid -->
+          <div class="weather-details-row">
+            <div class="detail-item">
+              <div class="detail-label text-muted">Wind Speed</div>
+              <div class="detail-value" id="weather-wind">--kph</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label text-muted">Precipitation</div>
+              <div class="detail-value" id="weather-precip">0%</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label text-muted">Humidity</div>
+              <div class="detail-value" id="weather-humidity">0%</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label text-muted">UV Index</div>
+              <div class="detail-value" id="weather-uv">0</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label text-muted">AQI</div>
+              <div class="detail-value" id="weather-aqi">--</div>
+            </div>
+          </div>
+          
+          <div class="weather-search-row">
+            <input type="text" id="weather-search-input" placeholder="Type city name here..." autocomplete="off">
+            <div id="weather-autocomplete-dropdown" class="weather-autocomplete">
+              <ul id="weather-autocomplete-list"></ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- ROW 2: TODO, POMODORO, F1 COUNTDOWN (3-column split) -->
+    <div class="dashboard-row row-bottom">
+      
+      <!-- Todo List Widget (Bottom-Left, Glass Card) -->
+      <div class="glass-card-wrapper todo-wrapper">
+        <section class="widget-card todo-widget glass-card">
+          <div class="widget-header">
+            <h3 class="widget-title">TODO LIST</h3>
+            <span class="task-count-badge mono text-muted" id="todo-count">0 tasks left</span>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="todo-progress-container">
+            <div class="todo-progress-meta">
+              <span class="text-muted">Progress</span>
+              <span id="todo-progress-percent">0%</span>
+            </div>
+            <div class="todo-progress-track">
+              <div class="todo-progress-bar" id="todo-progress-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <ul id="todo-list" class="todo-list">
+            <!-- Populated by JS -->
+          </ul>
+
+          <form id="todo-form" class="todo-input-row">
+            <input type="text" id="todo-input" placeholder="Write task..." required autocomplete="off">
+            <button type="submit" class="cyber-btn">+</button>
+          </form>
+
+          <!-- Pencil/Stylus Icon floating in corner -->
+          <div class="pencil-emblem" id="pencil-emblem-btn" title="Add focus task">
+            <svg viewBox="0 0 100 100" class="pencil-svg">
+              <circle cx="50" cy="50" r="42" fill="rgba(10, 12, 16, 0.8)" stroke="var(--accent-blue)" stroke-width="2" />
+              <g transform="translate(50, 48) rotate(-45)">
+                <rect x="-4" y="-20" width="8" height="30" fill="var(--text-cream)" rx="1" />
+                <rect x="-4" y="10" width="8" height="6" fill="var(--accent-red)" />
+                <rect x="-4" y="6" width="8" height="4" fill="var(--text-muted)" />
+                <polygon points="-4,-20 4,-20 0,-30" fill="var(--text-muted)" />
+                <polygon points="-1.5,-26 1.5,-26 0,-30" fill="#111" />
+              </g>
+            </svg>
+          </div>
+        </section>
+      </div>
+
+
+      <!-- Focus Session Widget (Bottom-Center, Glass Card) -->
+      <div class="glass-card-wrapper pomodoro-wrapper">
+        <section class="widget-card pomodoro-widget glass-card">
+          <h3 class="widget-title">FOCUS SESSION</h3>
+
+          <!-- Mode Selectors -->
+          <div class="pomo-modes" role="tablist">
+            <button id="pomo-mode-work" class="pomo-mode-btn active">Work</button>
+            <button id="pomo-mode-short" class="pomo-mode-btn">Short Break</button>
+            <button id="pomo-mode-long" class="pomo-mode-btn">Long Break</button>
+          </div>
+
+          <div class="pomo-content">
+            <div class="pomo-timer-row">
+              <!-- Glowing Progress Ring -->
+              <div class="pomo-progress-container">
+                <svg class="pomo-progress-ring" viewBox="0 0 200 200">
+                  <circle class="ring-bg" cx="100" cy="100" r="85" stroke-width="6"/>
+                  <circle class="ring-fg" cx="100" cy="100" r="85" stroke-width="6" id="pomo-progress-fg"/>
+                </svg>
+                <div class="pomo-timer-text">
+                  <span class="mono" id="pomo-clock">25:00</span>
+                </div>
+              </div>
+              
+              <div class="pomo-meta-side">
+                <div class="streak-text mono" id="pomo-streak-days">0 day streak</div>
+                <button class="cyber-action-btn" id="pomo-activity-btn">Activity</button>
+              </div>
+            </div>
+
+            <div class="pomo-controls">
+              <button id="pomo-start" class="cyber-btn-pomo">Start</button>
+              <button id="pomo-reset" class="cyber-btn-pomo">Reset</button>
+              <button id="pomo-settings-btn" class="cyber-btn-pomo settings-trigger">⚙️</button>
+            </div>
+          </div>
+
+          <!-- Heatmap -->
+          <div class="pomo-heatmap-section">
+            <div class="heatmap-title text-muted mono">Focus Heatmap</div>
+            <div class="heatmap-grid" id="pomo-heatmap-grid">
+              <!-- Heatmap cells -->
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- F1 Countdown Widget (Bottom-Right, Glass Card with Carbon highlights) -->
+      <div class="glass-card-wrapper f1-wrapper">
+        <section class="widget-card f1-countdown-widget glass-card">
+          <div class="widget-header">
+            <h3 class="widget-title" id="f1-event-title">Barcelona-Catalunya GP 🇪🇸</h3>
+            <div class="f1-status-pill mono">NEXT RACE</div>
+          </div>
+
+          <div class="f1-content-row">
+            <!-- Ticking Tag Heuer chronograph watch face on the left -->
+            <div class="f1-clock-container">
+              <div class="tag-heuer-watch">
+                <!-- Watch Bezel -->
+                <div class="watch-bezel">
+                  <div class="bezel-num val-00">▼</div>
+                  <div class="bezel-num val-05">05</div>
+                  <div class="bezel-num val-10">10</div>
+                  <div class="bezel-num val-15">15</div>
+                  <div class="bezel-num val-20">20</div>
+                  <div class="bezel-num val-25">25</div>
+                  <div class="bezel-num val-30">30</div>
+                  <div class="bezel-num val-35">35</div>
+                  <div class="bezel-num val-40">40</div>
+                  <div class="bezel-num val-45">45</div>
+                  <div class="bezel-num val-50">50</div>
+                  <div class="bezel-num val-55">55</div>
+                </div>
+
+                <!-- Watch Inner Dial -->
+                <div class="watch-dial">
+                  <!-- Red Dotted Inner Track -->
+                  <div class="watch-dotted-track"></div>
+
+                  <!-- TAG Heuer shield logo -->
+                  <div class="watch-logo-container">
+                    <div class="tag-shield-svg">
+                      <svg viewBox="0 0 100 100">
+                        <path d="M10 25 L50 12 L90 25 L90 55 C90 78 50 90 50 90 C50 90 10 78 10 55 Z" fill="#E10600" />
+                        <path d="M15 28 L50 16 L85 28 L85 54 C85 73 50 84 50 84 C50 84 15 73 15 54 Z" fill="#005A3C" />
+                        <path d="M10 44 L90 44 L90 47 L10 47 Z" fill="white" />
+                        <text x="50" y="38" font-family="'Outfit', sans-serif" font-weight="900" font-size="19" fill="white" text-anchor="middle" letter-spacing="1">TAG</text>
+                        <text x="50" y="66" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="white" text-anchor="middle" letter-spacing="0.5">HEUER</text>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Markers: Trapezoids at 12 & 6, and batons elsewhere -->
+                  <div class="watch-markers">
+                    <div class="dial-marker marker-12"></div>
+                    <div class="dial-marker marker-1"></div>
+                    <div class="dial-marker marker-2"></div>
+                    <div class="dial-marker marker-3"></div>
+                    <div class="dial-marker marker-4"></div>
+                    <div class="dial-marker marker-5"></div>
+                    <div class="dial-marker marker-6"></div>
+                    <div class="dial-marker marker-7"></div>
+                    <div class="dial-marker marker-8"></div>
+                    <div class="dial-marker marker-9"></div>
+                    <div class="dial-marker marker-10"></div>
+                    <div class="dial-marker marker-11"></div>
+                  </div>
+
+                  <!-- Text label -->
+                  <div class="dial-brand-lbl">FORMULA 1</div>
+
+                  <!-- Ticking hands -->
+                  <div class="dial-hand hand-hour" id="f1-hour-hand"></div>
+                  <div class="dial-hand hand-minute" id="f1-minute-hand"></div>
+                  <div class="dial-hand hand-second" id="f1-second-hand"></div>
+                  
+                  <!-- Center screw/pin -->
+                  <div class="dial-center-pin"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Countdown details on the right -->
+            <div class="f1-countdown-side">
+              <div class="race-start-lbl text-muted mono">RACE START IN</div>
+              
+              <div class="countdown-numbers-row mono">
+                <div class="num-unit">
+                  <span class="num-val" id="f1-days">00</span>
+                  <span class="num-lbl text-muted">DAYS</span>
+                </div>
+                <div class="num-divider">|</div>
+                <div class="num-unit">
+                  <span class="num-val" id="f1-hours">00</span>
+                  <span class="num-lbl text-muted">HRS</span>
+                </div>
+                <div class="num-divider">|</div>
+                <div class="num-unit">
+                  <span class="num-val" id="f1-mins">00</span>
+                  <span class="num-lbl text-muted">MINS</span>
+                </div>
+                <div class="num-divider">|</div>
+                <div class="num-unit">
+                  <span class="num-val" id="f1-secs">00</span>
+                  <span class="num-lbl text-muted">SECS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="f1-footer-container text-muted mono">
+            <div class="f1-footer-meta">
+              <div class="meta-row">VENUE: <span id="f1-venue">BARCELONA-CATALUNYA</span></div>
+              <div class="meta-row">DATE: <span id="f1-date-string">Jun 12 - Jun 14</span></div>
+            </div>
+
+            <!-- Neon Track Map Trace -->
+            <div class="f1-track-container" id="f1-track-map"></div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- ROW 3: CALENDAR & NEWS TELEMETRY (2-column split) -->
+    <div class="dashboard-row row-news">
+      <!-- Smart Calendar Widget (Glass Card) -->
+      <div class="glass-card-wrapper calendar-wrapper">
+        <section class="widget-card calendar-widget glass-card">
+          <div class="widget-header">
+            <h3 class="widget-title">SMART CALENDAR</h3>
+            <div class="calendar-nav">
+              <button id="cal-prev-btn" class="cal-nav-btn" aria-label="Previous Month">◀</button>
+              <span id="cal-month-year" class="mono text-main" style="font-weight:600; font-size:0.82rem; margin: 0 0.5rem;">June 2026</span>
+              <button id="cal-next-btn" class="cal-nav-btn" aria-label="Next Month">▶</button>
+            </div>
+          </div>
+          
+          <div class="calendar-layout">
+            <div class="calendar-grid-box">
+              <div class="calendar-weekdays">
+                <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+              </div>
+              <div class="calendar-days" id="calendar-days-grid">
+                <!-- Populated dynamically via JS -->
+              </div>
+            </div>
+            
+            <div class="calendar-parser-box">
+              <div class="event-input-wrapper">
+                <textarea id="smart-event-input" class="cyber-textarea" placeholder="Type event details... e.g. 'Sync meeting tomorrow at 3 PM' or 'Code review on Friday 10 AM to 11:30 AM'"></textarea>
+                <div class="parser-feedback hidden" id="parser-feedback"></div>
+              </div>
+              <button id="cal-add-btn" class="cyber-btn-pomo" style="width: 100%; margin-top: 0.5rem; font-size:0.8rem; padding: 0.5rem;">
+                PARSE & SCHEDULE
+              </button>
+            </div>
+          </div>
+          
+          <div class="selected-day-events">
+            <h4 class="events-subtitle">Events for <span id="selected-date-str" class="mono">today</span>:</h4>
+            <div class="events-list-timeline" id="day-events-list">
+              <!-- Populated dynamically via JS -->
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- News Telemetry Widget (Glass Card) -->
+      <div class="glass-card-wrapper news-wrapper">
+        <section class="widget-card news-widget glass-card">
+          <div class="widget-header">
+            <div class="news-header-left">
+              <h3 class="widget-title">NEWS TELEMETRY</h3>
+              <div class="telemetry-status">
+                <span class="status-beacon"></span>
+                <span class="status-label mono">LIVE FEED</span>
+              </div>
+            </div>
+            <div class="news-header-right">
+              <button id="news-refresh-btn" class="btn-icon" aria-label="Refresh news feed" title="Sync live feeds">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Category Filters -->
+          <div class="news-filters">
+            <button class="news-filter-btn active" data-category="all">ALL</button>
+            <button class="news-filter-btn" data-category="world">WORLD</button>
+            <button class="news-filter-btn" data-category="tech">TECH</button>
+            <button class="news-filter-btn" data-category="business">BUSINESS</button>
+          </div>
+
+          <!-- News Feed Container -->
+          <div class="news-container" id="news-feed-list">
+            <div class="news-loading mono text-muted">SYNCING DATA FEEDS...</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- F1 Quote Widget (Glass Card / Rounded Card inspiration) -->
+      <div class="glass-card-wrapper quote-wrapper">
+        <section class="widget-card quote-widget glass-card">
+          <!-- Background image element -->
+          <div class="quote-bg-image" id="quote-bg-image"></div>
+          <!-- Inset dotted border outline -->
+          <div class="quote-card-inner"></div>
+          
+          <div class="quote-header">
+            <!-- Helmet SVG -->
+            <div class="quote-helmet-icon">
+              <svg viewBox="0 0 100 100" fill="currentColor">
+                <!-- helmet dome -->
+                <path d="M50,15 C28,15 20,30 20,55 C20,60 21,65 24,70 L24,78 C24,82 28,85 32,85 L68,85 C72,85 76,82 76,78 L76,70 C79,65 80,60 80,55 C80,30 72,15 50,15 Z" fill="#d47a3c" />
+                <!-- visor cut -->
+                <path d="M22,42 C22,42 32,38 50,38 C68,38 78,42 78,42 C80,48 80,54 78,56 C74,58 65,60 50,60 C35,60 26,58 22,56 C20,54 20,48 22,42 Z" fill="#090a0c" />
+                <!-- visor details -->
+                <path d="M25,45 C35,43 50,43 75,45 C74,48 70,51 50,51 C30,51 26,48 25,45 Z" fill="#d47a3c" opacity="0.8" />
+                <!-- chin vents -->
+                <rect x="41" y="70" width="3" height="7" rx="1" fill="#090a0c" />
+                <rect x="48" y="70" width="3" height="7" rx="1" fill="#090a0c" />
+                <rect x="55" y="70" width="3" height="7" rx="1" fill="#090a0c" />
+              </svg>
+            </div>
+            
+            <div class="quote-meta">
+              <div class="quote-author mono" id="quote-author">KIMI RAIKKONEN</div>
+              <div class="quote-context mono" id="quote-context">ITALY 2020</div>
+            </div>
+          </div>
+          
+          <div class="quote-body">
+            <span class="quote-text" id="quote-text">"For what!"</span>
+          </div>
+        </section>
+        <!-- Branding below card as seen in inspiration "Formulify" -->
+        <div class="quote-branding mono">Formulify</div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Pomodoro Settings Dialog Modal -->
+  <dialog id="pomo-settings-dialog" class="glass-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Timer Configuration</h3>
+        <button id="pomo-settings-close" class="close-btn">×</button>
+      </div>
+      <form id="pomo-settings-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pomo-input-work">Work (Min)</label>
+            <input type="number" id="pomo-input-work" min="1" max="180" value="25" required>
+          </div>
+          <div class="form-group">
+            <label for="pomo-input-short">Short (Min)</label>
+            <input type="number" id="pomo-input-short" min="1" max="60" value="5" required>
+          </div>
+          <div class="form-group">
+            <label for="pomo-input-long">Long (Min)</label>
+            <input type="number" id="pomo-input-long" min="1" max="120" value="15" required>
+          </div>
+        </div>
+        <div class="form-row" style="margin-top: 1rem;">
+          <div class="form-group">
+            <label for="pomo-input-volume">Chime Volume</label>
+            <input type="range" id="pomo-input-volume" min="0" max="1" step="0.1" value="0.5">
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <button type="button" id="pomo-settings-reset" class="cyber-btn-secondary">Reset Defaults</button>
+          <button type="submit" class="cyber-btn-primary">Save Settings</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Activity Log Dialog Modal -->
+  <dialog id="pomo-activity-dialog" class="glass-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Focus History</h3>
+        <button id="pomo-activity-close" class="close-btn">×</button>
+      </div>
+      <div class="activity-history-body" id="pomo-activity-list">
+        <!-- List of history logs -->
+      </div>
+      <div class="dialog-footer">
+        <button type="button" id="pomo-activity-clear" class="cyber-btn-secondary">Clear Logs</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Floating Fullscreen HUD Toggle -->
+  <button id="fullscreen-toggle-btn" class="hud-floating-btn" aria-label="Toggle Fullscreen" title="Toggle System Fullscreen">
+    <svg class="icon-expand" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+    </svg>
+    <svg class="icon-compress hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path>
+    </svg>
+  </button>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('🚀 Service Worker registered successfully:', reg.scope))
+          .catch((err) => console.warn('❌ Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

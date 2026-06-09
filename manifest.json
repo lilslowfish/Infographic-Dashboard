@@ -1,0 +1,22 @@
+{
+  "name": "F1 Command Center",
+  "short_name": "F1 HUD",
+  "description": "Futuristic Formula 1 telemetry countdown, focus timers, news, and calendars.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#090a0c",
+  "theme_color": "#00b0ff",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
