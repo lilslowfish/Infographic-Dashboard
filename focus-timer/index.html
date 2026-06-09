@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusFlow | Pomodoro Streak Timer</title>
+  <meta name="description" content="A premium Pomodoro timer with streaks tracking, custom durations, dynamic synthesized audio, and a visual study calendar grid.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Background particles canvas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+        <h1>FocusFlow</h1>
+      </div>
+      <div class="header-actions">
+        <a href="/" class="btn-icon" aria-label="Back to Dashboard" style="text-decoration: none; margin-right: 0.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </a>
+        <button id="btn-settings" class="btn-icon" aria-label="Open Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-grid">
+      <!-- LEFT SECTION: TIMER -->
+      <section class="timer-section glass-card">
+        <!-- Timer Presets/Modes Tab -->
+        <div class="timer-modes" role="tablist">
+          <div class="active-tab-indicator"></div>
+          <button id="mode-work" class="mode-btn active" role="tab" aria-selected="true">Work</button>
+          <button id="mode-short" class="mode-btn" role="tab" aria-selected="false">Short Break</button>
+          <button id="mode-long" class="mode-btn" role="tab" aria-selected="false">Long Break</button>
+        </div>
+
+        <!-- Timer Circle & Display -->
+        <div class="timer-display-container">
+          <svg class="progress-ring" viewBox="0 0 200 200">
+            <circle class="progress-ring-bg" cx="100" cy="100" r="88" stroke-width="6"/>
+            <circle class="progress-ring-fg" cx="100" cy="100" r="88" stroke-width="6" stroke-linecap="round" style="--percent: 100;"/>
+          </svg>
+          <div class="timer-text-content">
+            <div id="timer-label" class="timer-label">FOCUS TIME</div>
+            <div id="timer-clock" class="timer-clock">25:00</div>
+            <div id="timer-sub" class="timer-sub">Session 1 of 4</div>
+          </div>
+        </div>
+
+        <!-- Category Picker Pill -->
+        <div class="category-selector">
+          <label for="study-category" class="sr-only">Choose a Study Category</label>
+          <div class="category-pills">
+            <button class="category-pill active" data-category="Coding">💻 Coding</button>
+            <button class="category-pill" data-category="Design">🎨 Design</button>
+            <button class="category-pill" data-category="Writing">✍️ Writing</button>
+            <button class="category-pill" data-category="Reading">📚 Reading</button>
+            <button class="category-pill" data-category="Other">🎯 Other</button>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="timer-controls">
+          <button id="btn-reset" class="btn-secondary" aria-label="Reset Timer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M16 3h5v5"/>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+              <path d="M8 21H3v-5"/>
+            </svg>
+            Reset
+          </button>
+          
+          <button id="btn-start" class="btn-primary" aria-label="Start Focus Session">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-play">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-pause hidden">
+              <rect x="6" y="4" width="4" height="16"/>
+              <rect x="14" y="4" width="4" height="16"/>
+            </svg>
+            <span>Start</span>
+          </button>
+          
+          <button id="btn-skip" class="btn-secondary" aria-label="Skip Session">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 4 15 12 5 20 5 4"/>
+              <line x1="19" y1="5" x2="19" y2="19"/>
+            </svg>
+            Skip
+          </button>
+        </div>
+      </section>
+
+      <!-- RIGHT SECTION: STATS & STREAKS -->
+      <div class="stats-sidebar">
+        <!-- Streak Card -->
+        <section class="streak-card glass-card">
+          <div class="card-header">
+            <div class="streak-flame-container">
+              <svg class="streak-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <!-- Flame shape paths -->
+                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z" fill="currentColor"/>
+              </svg>
+              <div class="streak-count" id="streak-days">0</div>
+            </div>
+            <div class="streak-meta">
+              <h2>Daily Streak</h2>
+              <p id="streak-status-text">Complete 1 session today to keep your streak alive!</p>
+            </div>
+          </div>
+          
+          <!-- Calendar grid of study days (last 30 days) -->
+          <div class="calendar-grid-container">
+            <h3>Activity Heatmap</h3>
+            <div class="calendar-grid" id="calendar-grid">
+              <!-- Dynamically populated boxes -->
+            </div>
+            <div class="calendar-legend">
+              <span>Less</span>
+              <div class="legend-box level-0"></div>
+              <div class="legend-box level-1"></div>
+              <div class="legend-box level-2"></div>
+              <div class="legend-box level-3"></div>
+              <span>More</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- General Stats Board -->
+        <section class="stats-card glass-card">
+          <h2>Your Focus Stats</h2>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value" id="stat-total-time">0h 00m</div>
+              <div class="stat-label">Total Studied</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="stat-total-sessions">0</div>
+              <div class="stat-label">Sessions</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="stat-today-sessions">0</div>
+              <div class="stat-label">Today</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="stat-avg-session">0m</div>
+              <div class="stat-label">Avg Session</div>
+            </div>
+          </div>
+          
+          <!-- Categories breakout list -->
+          <div class="category-breakdown">
+            <h3>Time by Category</h3>
+            <ul id="category-stats-list" class="breakdown-list">
+              <!-- JS updates -->
+            </ul>
+          </div>
+        </section>
+
+        <!-- Focus Logs/History Timeline -->
+        <section class="history-card glass-card">
+          <h2>Recent Sessions</h2>
+          <div class="history-timeline" id="history-timeline">
+            <!-- Dynamically populated logs -->
+            <div class="empty-state">No sessions completed yet. Let's make progress!</div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Settings Dialog (Modal) -->
+  <dialog id="settings-dialog" class="settings-modal glass-card">
+    <div class="modal-header">
+      <h2>Timer Configuration</h2>
+      <button id="btn-close-settings" class="btn-icon" aria-label="Close Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    
+    <form method="dialog" id="settings-form" class="settings-form">
+      <div class="form-section">
+        <h3>Durations (Minutes)</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-work">Work</label>
+            <input type="number" id="input-work" min="1" max="180" value="25" required>
+          </div>
+          <div class="form-group">
+            <label for="input-short">Short Break</label>
+            <input type="number" id="input-short" min="1" max="60" value="5" required>
+          </div>
+          <div class="form-group">
+            <label for="input-long">Long Break</label>
+            <input type="number" id="input-long" min="1" max="120" value="15" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Options</h3>
+        <div class="form-group-checkbox">
+          <label class="switch-label">
+            <input type="checkbox" id="input-auto-breaks" checked>
+            <span class="custom-switch"></span>
+            Auto-start Breaks
+          </label>
+        </div>
+        <div class="form-group-checkbox">
+          <label class="switch-label">
+            <input type="checkbox" id="input-auto-work">
+            <span class="custom-switch"></span>
+            Auto-start Focus Sessions
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="input-long-interval">Long Break Interval</label>
+          <div class="number-input-row">
+            <input type="number" id="input-long-interval" min="1" max="10" value="4" required>
+            <span>sessions before long break</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Sounds</h3>
+        <div class="form-group">
+          <label for="input-sound-alarm">Alarm Sound</label>
+          <select id="input-sound-alarm">
+            <option value="chime">🔔 Synthesized Chime (Gentle)</option>
+            <option value="pulse">⚡ Cyber Pulse</option>
+            <option value="digital">📟 Retro Digital</option>
+            <option value="none">🔇 Silent</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="input-sound-ambient">Focus Ambient Noise</label>
+          <select id="input-sound-ambient">
+            <option value="none">🔇 None</option>
+            <option value="whitenoise">⬜ Static White Noise</option>
+            <option value="pinknoise">🌸 Soft Pink Noise</option>
+            <option value="rain">🌧️ Synthesized Rain</option>
+          </select>
+          <div class="ambient-volume-row hidden" id="ambient-volume-container">
+            <label for="input-ambient-volume">Volume</label>
+            <input type="range" id="input-ambient-volume" min="0" max="1" step="0.05" value="0.3">
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="btn-reset-defaults" class="btn-secondary">Reset Defaults</button>
+        <button type="submit" class="btn-primary">Save Settings</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Main script -->
+  <script src="app.js"></script>
+</body>
+</html>

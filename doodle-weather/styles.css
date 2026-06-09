@@ -1,0 +1,1392 @@
+/* Import Gamja Flower Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font-doodle: 'Kalam', 'Gamja Flower', 'Outfit', cursive, sans-serif;
+  
+  /* Doodle Ink & Paper Palette */
+  --bg-body: #f5f2eb; /* Warm sketchbook cover background */
+  --bg-page: #fdfdfb; /* Crisp sketchbook paper page */
+  --ink-dark: #202430; /* Charcoal pen ink */
+  --ink-secondary: #4a5568;
+  --ink-muted: #718096;
+  
+  /* Highlighter/Marker Accents */
+  --marker-yellow: rgba(254, 240, 138, 0.85); /* Sunny */
+  --marker-blue: rgba(186, 230, 253, 0.85);   /* Rainy */
+  --marker-grey: rgba(226, 232, 240, 0.85);   /* Cloudy */
+  --marker-purple: rgba(233, 213, 255, 0.85); /* Snowy */
+  --marker-coral: rgba(254, 202, 202, 0.85);  /* Stormy / Errors */
+  --marker-active: var(--marker-yellow);       /* Dynamically changed */
+  
+  /* Sketch Border Radii (Uneven hand-drawn shapes) */
+  --radius-sketch-lg: 255px 15px 225px 15px/15px 225px 15px 255px;
+  --radius-sketch-md: 120px 20px 100px 30px/30px 100px 20px 120px;
+  --radius-sketch-sm: 80px 10px 90px 15px/15px 80px 12px 90px;
+  
+  --shadow-offset: 4px;
+}
+
+body {
+  font-family: var(--font-doodle);
+  color: var(--ink-dark);
+  background-color: var(--bg-body);
+  /* Sketchbook background texture */
+  background-image: 
+    radial-gradient(var(--ink-muted) 0.5px, transparent 0.5px), 
+    radial-gradient(var(--ink-muted) 0.5px, #f5f2eb 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3rem 1rem 2rem;
+  overflow-x: hidden;
+  font-size: 1.25rem;
+  transition: background-color 0.8s ease, background-image 0.8s ease;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Notebook Binder Rings Decoration */
+.notebook-rings {
+  display: flex;
+  justify-content: center;
+  gap: 3.5rem;
+  position: absolute;
+  top: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.notebook-rings .ring {
+  width: 20px;
+  height: 48px;
+  background: linear-gradient(90deg, #718096, #cbd5e1 50%, #475569);
+  border: 2px solid var(--ink-dark);
+  border-radius: 10px;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* Sketchbook Page Wrapper */
+.sketchbook-page {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  background-color: var(--bg-page);
+  border: 3px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-lg);
+  padding: 3.5rem 3rem 2rem;
+  box-shadow: 8px 8px 0px var(--ink-dark);
+  /* Lined paper pattern */
+  background-image: repeating-linear-gradient(rgba(253, 253, 251, 0) 0px, rgba(253, 253, 251, 0) 29px, rgba(226, 232, 240, 0.8) 30px);
+  background-size: 100% 30px;
+  transition: box-shadow 0.5s ease;
+  z-index: 10;
+}
+
+/* Dynamic theme backgrounds with hand-drawn SVG doodles and glows */
+body.theme-sunny {
+  background-color: #fef9c3;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='18' fill='%23fef08a' stroke='%23202430' stroke-width='3'/%3E%3Cpath d='M50 15 V5 M50 85 V95 M15 50 H5 M85 50 H95 M25 25 L18 18 M75 75 L82 82 M75 25 L82 18 M25 75 L18 82' stroke='%23202430' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80' viewBox='0 0 60 40'%3E%3Cpath d='M10 20 Q 20 10 30 20 Q 40 10 50 20' fill='none' stroke='%23202430' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-position: right 40px top 40px, left 60px bottom 80px;
+}
+body.theme-sunny .sketchbook-page { box-shadow: 8px 8px 0px var(--ink-dark), 0 0 15px rgba(251, 191, 36, 0.4); }
+
+body.theme-rainy {
+  background-color: #bae6fd;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 100 100'%3E%3Cpath d='M30 50 C30 40, 45 35, 50 40 C55 35, 70 40, 70 50 C75 50, 80 55, 80 60 C80 67, 72 70, 70 70 H30 C25 70, 20 65, 20 60 C20 53, 25 50, 30 50 Z' fill='%23cbd5e1' stroke='%23202430' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M35 78 L30 88 M48 78 L43 88 M60 78 L55 88 M70 78 L65 88' stroke='%2338bdf8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80' viewBox='0 0 100 60'%3E%3Cellipse cx='50' cy='35' rx='30' ry='10' fill='none' stroke='%23202430' stroke-width='2.5'/%3E%3Cellipse cx='45' cy='38' rx='18' ry='6' fill='none' stroke='%23202430' stroke-width='1.5' stroke-dasharray='5,3'/%3E%3Cpath d='M10 20 C 15 15, 25 15, 30 20' fill='none' stroke='%23202430' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-position: right 40px top 45px, left 60px bottom 90px;
+}
+body.theme-rainy .sketchbook-page { box-shadow: 8px 8px 0px var(--ink-dark), 0 0 15px rgba(56, 189, 248, 0.4); }
+
+body.theme-cloudy {
+  background-color: #e2e8f0;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='120' viewBox='0 0 100 80'%3E%3Cpath d='M25 45 C25 35, 40 30, 45 35 C50 30, 65 35, 65 45 C70 45, 75 50, 75 55 C75 62, 68 65, 65 65 H25 C20 65, 15 60, 15 55 C15 48, 20 45, 25 45 Z' fill='%23ffffff' stroke='%23202430' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='100' viewBox='0 0 100 80'%3E%3Cpath d='M30 40 C30 30, 42 25, 48 30 C52 25, 62 30, 62 40 C68 40, 72 45, 72 50 C72 56, 66 60, 60 60 H30 C24 60, 20 56, 20 50 C20 44, 24 40, 30 40 Z' fill='%23cbd5e1' stroke='%23202430' stroke-width='2.5' stroke-linejoin='round' opacity='0.7'/%3E%3C/svg%3E");
+  background-position: right 50px top 50px, left 80px bottom 100px;
+}
+body.theme-cloudy .sketchbook-page { box-shadow: 8px 8px 0px var(--ink-dark), 0 0 15px rgba(148, 163, 184, 0.4); }
+
+body.theme-snowy {
+  background-color: #faf5ff;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 100 100'%3E%3Cpath d='M25 45 C25 35, 40 30, 45 35 C50 30, 65 35, 65 45 C70 45, 75 50, 75 55 C75 62, 68 65, 65 65 H25 C20 65, 15 60, 15 55 C15 48, 20 45, 25 45 Z' fill='%23f1f5f9' stroke='%23202430' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M30 75 L30 81 M27 78 H33 M50 75 L50 81 M47 78 H53 M70 75 L70 81 M67 78 H73' stroke='%23202430' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 V90 M10 50 H90 M22 22 L78 78 M22 78 L78 22' stroke='%23202430' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M50 25 L45 30 M50 25 L55 30 M50 75 L45 70 M50 75 L55 70 M25 50 L30 45 M25 50 L30 55 M75 50 L70 45 M75 50 L70 55' stroke='%23202430' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-position: right 40px top 40px, left 80px bottom 80px;
+}
+body.theme-snowy .sketchbook-page { box-shadow: 8px 8px 0px var(--ink-dark), 0 0 15px rgba(192, 132, 252, 0.4); }
+
+body.theme-stormy {
+  background-color: #475569;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 100 100'%3E%3Cpath d='M30 45 C30 35, 45 30, 50 35 C55 30, 70 35, 70 45 C75 45, 80 50, 80 55 C80 62, 72 65, 70 65 H30 C25 65, 20 60, 20 55 C20 48, 25 45, 30 45 Z' fill='%23334155' stroke='%23202430' stroke-width='3' stroke-linejoin='round'/%3E%3Cpolygon points='52,65 44,78 51,78 46,90 58,74 50,74' fill='%23fef08a' stroke='%23202430' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='120' viewBox='0 0 100 150'%3E%3Cpolygon points='60,10 20,80 50,80 30,140 80,60 50,60' fill='%23fef08a' stroke='%23202430' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right 50px top 45px, left 70px bottom 90px;
+}
+body.theme-stormy .sketchbook-page { box-shadow: 8px 8px 0px var(--ink-dark), 0 0 15px rgba(254, 202, 202, 0.4); }
+
+body.theme-clear-night {
+  background-color: #1e1b4b;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 100 100'%3E%3Cpath d='M60 30 C45 30 35 40 35 55 C35 70 45 80 60 80 C65 80 70 78 72 75 C58 75 50 67 50 55 C50 43 58 35 72 35 C70 32 65 30 60 30 Z' fill='%23faf5ff' stroke='%23202430' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M25 25 L27 29 L31 29 L28 32 L29 36 L25 34 L21 36 L22 32 L19 29 L23 29 Z' fill='%23fef08a' stroke='%23202430' stroke-width='1.5' transform='scale%280.8%29 translate%2810, -10%29'/%3E%3Cpath d='M20 70 L22 74 L26 74 L23 77 L24 81 L20 79 L16 81 L17 77 L14 74 L18 74 Z' fill='%23fef08a' stroke='%23202430' stroke-width='1.5' transform='scale%280.6%29 translate%2880, 20%29'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='%23ffffff' stroke='%23202430' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3Ccircle cx='60' cy='40' r='3'/%3E%3Ccircle cx='80' cy='70' r='4'/%3E%3Cline x1='30' y1='30' x2='60' y2='40' stroke='%23ffffff' stroke-width='1.5' stroke-dasharray='3,3'/%3E%3Cline x1='60' y1='40' x2='80' y2='70' stroke='%23ffffff' stroke-width='1.5' stroke-dasharray='3,3'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right 50px top 40px, left 80px bottom 90px;
+}
+body.theme-clear-night .sketchbook-page { box-shadow: 8px 8px 0px var(--ink-dark), 0 0 15px rgba(99, 102, 241, 0.4); }
+
+/* Left Margin Line of Notebook Paper */
+.notebook-margin-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 48px;
+  width: 2px;
+  background-color: rgba(248, 113, 113, 0.5); /* Red margin line */
+  pointer-events: none;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-left: 2rem; /* Offsets content from margin line */
+}
+
+/* Header & Handwriting Title */
+header.app-header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+header.app-header h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--ink-dark);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+  position: relative;
+}
+
+/* Doodle underlining header title */
+header.app-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: -5%;
+  right: -5%;
+  height: 5px;
+  background-color: var(--ink-dark);
+  border-radius: 4px;
+  transform: rotate(-1deg);
+}
+
+header.app-header p {
+  color: var(--ink-secondary);
+  font-size: 1.3rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Floating Settings Gear Button */
+.settings-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #ffffff;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px var(--ink-dark);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 30;
+}
+
+.settings-btn:hover {
+  transform: translate(-1px, -1px) rotate(30deg);
+  box-shadow: 4px 4px 0px var(--ink-dark);
+}
+
+.settings-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ink-dark);
+}
+
+.gear-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--ink-dark);
+}
+
+/* Search Wrapper */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 3px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-md);
+  padding: 0.4rem 1.2rem;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--ink-dark);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.search-bar:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--ink-dark);
+}
+
+.search-icon {
+  width: 22px;
+  height: 22px;
+  fill: var(--ink-secondary);
+  flex-shrink: 0;
+}
+
+.search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-doodle);
+  font-size: 1.35rem;
+  color: var(--ink-dark);
+  padding: 0.4rem 0;
+}
+
+.search-input::placeholder {
+  color: var(--ink-muted);
+}
+
+.clear-btn, .spinner {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  fill: var(--ink-secondary);
+  flex-shrink: 0;
+}
+
+.clear-btn.hidden {
+  display: none;
+}
+
+/* Scribble-style Spinner Animation */
+.spinner {
+  animation: spin 1s linear infinite;
+  display: none;
+  border: 3px dashed var(--ink-dark);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.spinner.active {
+  display: block;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Autocomplete Suggestion Dropdown */
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 3px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-md);
+  box-shadow: 6px 6px 0px var(--ink-dark);
+  z-index: 100;
+  overflow: hidden;
+  max-height: 260px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.autocomplete-dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+  background: var(--ink-secondary);
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+}
+
+.autocomplete-list {
+  list-style: none;
+}
+
+.autocomplete-item {
+  padding: 0.75rem 1.2rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  border-bottom: 2px dashed rgba(32, 36, 48, 0.15);
+  transition: background 0.15s;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+/* Highlighter match select effect */
+.autocomplete-item:hover, .autocomplete-item.active {
+  background-color: var(--marker-yellow);
+}
+
+.autocomplete-city {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.autocomplete-region {
+  font-size: 0.95rem;
+  color: var(--ink-secondary);
+}
+
+.autocomplete-item mark {
+  background: rgba(254, 240, 138, 0.5);
+  color: var(--ink-dark);
+  border-bottom: 2px solid var(--ink-dark);
+  font-weight: bold;
+}
+
+.no-results {
+  padding: 1rem;
+  color: var(--ink-muted);
+  text-align: center;
+  font-style: italic;
+}
+
+/* Cross-Reference Status Badge Bar (Styled like pinned tape) */
+.source-status-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: -0.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px dashed var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  padding: 0.6rem 1rem;
+  box-shadow: 2px 2px 0px var(--ink-dark);
+}
+
+.source-status-container.hidden {
+  display: none;
+}
+
+.status-badge {
+  font-size: 1rem;
+  padding: 0.2rem 0.6rem;
+  border: 1.5px solid var(--ink-dark);
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.status-badge.success {
+  background-color: #d1fae5; /* Soft Green marker */
+}
+
+.status-badge.fail {
+  background-color: var(--marker-coral);
+}
+
+.status-badge.fetching {
+  background-color: var(--marker-yellow);
+  animation: pulse-border 1s infinite alternate;
+}
+
+@keyframes pulse-border {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+
+.status-summary {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+}
+
+/* Error Alert Box */
+.error-box {
+  background: var(--marker-coral);
+  border: 3px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  box-shadow: 3px 3px 0px var(--ink-dark);
+  display: none;
+}
+
+.error-box.show {
+  display: flex;
+}
+
+.error-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--ink-dark);
+  flex-shrink: 0;
+}
+
+/* Weather Dashboard Container */
+.weather-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.weather-dashboard.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.weather-dashboard.hidden {
+  display: none;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-bottom: 3px dashed var(--ink-dark);
+  padding-bottom: 1.25rem;
+}
+
+.city-info h2 {
+  font-size: 2.3rem;
+  font-weight: bold;
+}
+
+.city-info .country-name {
+  font-size: 1.25rem;
+  color: var(--ink-secondary);
+  display: block;
+}
+
+.city-info .coordinates {
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  font-family: monospace;
+  margin-top: 0.2rem;
+}
+
+/* Forecast Card Grid */
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Hand-Drawn Forecast Card */
+.forecast-card {
+  background: #ffffff;
+  border: 3px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-md);
+  padding: 1.75rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  box-shadow: 5px 5px 0px var(--ink-dark);
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: scribbleAppear 0.5s ease-out both;
+}
+
+.forecast-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0px var(--ink-dark);
+}
+
+/* Paper Tape Decorative Overlay (Doodle Aesthetic) */
+.forecast-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 80px;
+  height: 22px;
+  background: rgba(254, 240, 138, 0.6); /* Translucent yellow tape */
+  border: 1px dashed rgba(32, 36, 48, 0.3);
+  transform: rotate(-4deg);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.forecast-card.card-1::before {
+  background: rgba(186, 230, 253, 0.6); /* Cyan tape */
+  transform: rotate(3deg);
+  width: 70px;
+}
+
+.forecast-card.card-2::before {
+  background: rgba(254, 202, 202, 0.6); /* Coral tape */
+  transform: rotate(-2deg);
+  width: 90px;
+}
+
+.forecast-card.card-3::before {
+  background: rgba(233, 213, 255, 0.6); /* Purple tape */
+  transform: rotate(2deg);
+  width: 80px;
+}
+
+.forecast-card.card-4::before {
+  background: rgba(254, 240, 138, 0.6); /* Yellow tape */
+  transform: rotate(-3deg);
+  width: 75px;
+}
+
+.forecast-card.card-5::before {
+  background: rgba(186, 230, 253, 0.6); /* Cyan tape */
+  transform: rotate(4deg);
+  width: 85px;
+}
+
+.forecast-card.card-6::before {
+  background: rgba(254, 202, 202, 0.6); /* Coral tape */
+  transform: rotate(-1deg);
+  width: 70px;
+}
+
+/* AQI & UV Index Custom Hand-drawn Badges */
+.aqi-badge, .uv-badge {
+  font-size: 0.9rem;
+  padding: 0.05rem 0.35rem;
+  border: 1.8px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  font-weight: bold;
+  margin-left: 0.35rem;
+  display: inline-block;
+}
+
+.aqi-good { background-color: rgba(187, 247, 208, 0.85); }
+.aqi-moderate { background-color: rgba(254, 240, 138, 0.85); }
+.aqi-unhealthy { background-color: rgba(254, 202, 202, 0.85); }
+
+.uv-low { background-color: rgba(187, 247, 208, 0.85); }
+.uv-moderate { background-color: rgba(254, 240, 138, 0.85); }
+.uv-high { background-color: rgba(253, 186, 116, 0.85); }
+.uv-veryhigh { background-color: rgba(244, 63, 94, 0.85); color: #ffffff; }
+
+@keyframes scribbleAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.forecast-card.card-0 { animation-delay: 0.05s; }
+.forecast-card.card-1 { animation-delay: 0.15s; }
+.forecast-card.card-2 { animation-delay: 0.25s; }
+
+.forecast-day {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.forecast-date {
+  font-size: 1.05rem;
+  color: var(--ink-secondary);
+  margin-top: -0.75rem;
+}
+
+/* SVGs (Doodle Hand-drawn icon boxes) */
+.weather-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.25rem 0;
+  position: relative;
+}
+
+.weather-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.forecast-temp {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.temp-max {
+  font-size: 2.2rem;
+  font-weight: bold;
+  line-height: 1.1;
+  /* Highlight maximum temperature like written with marker */
+  background: var(--marker-active);
+  padding: 0 0.5rem;
+  border-radius: var(--radius-sketch-sm);
+  display: inline-block;
+}
+
+.temp-min {
+  font-size: 1.2rem;
+  color: var(--ink-secondary);
+}
+
+.forecast-divider {
+  width: 100%;
+  height: 3px;
+  border-top: 3px dashed var(--ink-dark);
+}
+
+/* Stats list */
+.forecast-stats {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 1.15rem;
+  text-align: left;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink-secondary);
+}
+
+.stat-icon {
+  width: 20px;
+  height: 20px;
+  fill: var(--ink-secondary);
+  stroke: var(--ink-dark);
+  stroke-width: 1;
+}
+
+.stat-value {
+  font-weight: bold;
+  color: var(--ink-dark);
+  margin-left: auto;
+}
+
+/* Precipitation Progress Indicator (Colored Crayon Fill Style) */
+.precip-indicator-bar {
+  width: 100%;
+  height: 12px;
+  background: #ffffff;
+  border: 2px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  overflow: hidden;
+  margin-top: 0.15rem;
+  padding: 1px;
+}
+
+.precip-indicator-fill {
+  height: 100%;
+  background-color: #38bdf8; /* Marker blue */
+  border-radius: var(--radius-sketch-sm);
+  width: 0%;
+  transition: width 0.7s ease-out;
+  /* Striped hand-drawn pattern for crayon look */
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(255, 255, 255, 0.4) 4px,
+    rgba(255, 255, 255, 0.4) 8px
+  );
+}
+
+/* Skeleton Loading Screens */
+.skeleton-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.skeleton-dashboard.hidden {
+  display: none;
+}
+
+.skeleton-pulse {
+  background-color: #e2e8f0;
+  border: 2px solid var(--ink-dark);
+  animation: skeleton-shiver 0.3s infinite alternate;
+}
+
+/* Hand-Drawn settings button switcher */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle-label {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* Sketchy hand-drawn items shiver/wobble while loading */
+@keyframes skeleton-shiver {
+  0% { transform: skewX(-0.5deg) scale(0.99); }
+  100% { transform: skewX(0.5deg) scale(1.01); }
+}
+
+.skeleton-text {
+  height: 20px;
+  width: 110px;
+  border-radius: var(--radius-sketch-sm);
+}
+
+.skeleton-title {
+  height: 38px;
+  width: 240px;
+  border-radius: var(--radius-sketch-md);
+}
+
+.skeleton-subtitle {
+  height: 22px;
+  width: 150px;
+  margin-top: 6px;
+  border-radius: var(--radius-sketch-sm);
+}
+
+.skeleton-card {
+  height: 290px;
+  border-radius: var(--radius-sketch-md);
+  box-shadow: 4px 4px 0px var(--ink-dark);
+}
+
+/* Dialogue Modal Sheet styling */
+.settings-dialog {
+  border: 3px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-lg);
+  padding: 0;
+  margin: auto;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 10px 10px 0px var(--ink-dark);
+  overflow: hidden;
+  background-color: var(--bg-page);
+  font-family: var(--font-doodle);
+}
+
+/* Modal Overlay backdrop */
+.settings-dialog::backdrop {
+  background-color: rgba(32, 36, 48, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.dialog-content {
+  position: relative;
+  padding: 2rem 2.5rem;
+  /* Lined paper pattern */
+  background-image: repeating-linear-gradient(rgba(253, 253, 251, 0) 0px, rgba(253, 253, 251, 0) 29px, rgba(226, 232, 240, 0.8) 30px);
+  background-size: 100% 30px;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px dashed var(--ink-dark);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+}
+
+.dialog-header h2 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.close-dialog-btn {
+  background: transparent;
+  border: none;
+  font-size: 2.2rem;
+  line-height: 1;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--ink-secondary);
+  transition: color 0.15s;
+}
+
+.close-dialog-btn:hover {
+  color: var(--ink-dark);
+}
+
+#settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-left: 1rem;
+}
+
+/* Settings Form Controls */
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.settings-group label, .group-label {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.settings-select {
+  font-family: var(--font-doodle);
+  font-size: 1.25rem;
+  padding: 0.4rem 0.8rem;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  background-color: #ffffff;
+  color: var(--ink-dark);
+  outline: none;
+  box-shadow: 2px 2px 0px var(--ink-dark);
+  cursor: pointer;
+}
+
+.settings-select:focus {
+  background-color: var(--marker-yellow);
+}
+
+/* Radio Group controls */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: 1.15rem;
+  position: relative;
+}
+
+/* Hide native check circles */
+.radio-label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Custom hand-drawn radio border box */
+.radio-label span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.radio-label span::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: 50%;
+  background: #ffffff;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.radio-label input[type="radio"]:checked + span::before {
+  background-color: var(--ink-dark);
+  box-shadow: inset 0 0 0 3px #ffffff;
+}
+
+/* Dialog actions button panel */
+.dialog-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.settings-action-btn {
+  font-family: var(--font-doodle);
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  cursor: pointer;
+  background: #ffffff;
+  box-shadow: 3px 3px 0px var(--ink-dark);
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex: 1;
+}
+
+.settings-action-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px var(--ink-dark);
+}
+
+.settings-action-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ink-dark);
+}
+
+.settings-action-btn.primary {
+  background-color: var(--marker-yellow);
+}
+
+.settings-action-btn.primary:hover {
+  background-color: #fef08a;
+}
+
+/* Footer Section */
+footer.app-footer {
+  margin-top: 2rem;
+  border-top: 3px dashed var(--ink-dark);
+  padding-top: 1.25rem;
+  text-align: center;
+  color: var(--ink-secondary);
+  font-size: 1.15rem;
+}
+
+footer.app-footer a {
+  color: var(--ink-dark);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  font-weight: bold;
+}
+
+footer.app-footer a:hover {
+  background-color: var(--marker-yellow);
+}
+
+/* Responsive adjust */
+@media (max-width: 768px) {
+  .forecast-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .sketchbook-page {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+  
+  .notebook-margin-line {
+    left: 20px;
+  }
+  
+  .container {
+    padding-left: 0.8rem;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .settings-dialog {
+    width: 95%;
+  }
+}
+
+/* Forecast Carousel Slider Styles */
+.forecast-slider-outer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.forecast-slider-container {
+  overflow: hidden;
+  width: 100%;
+  padding: 0.75rem 0.25rem;
+}
+
+.forecast-slider-container .forecast-grid {
+  display: flex;
+  flex-direction: row;
+  grid-template-columns: none;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.forecast-slider-container .forecast-card {
+  flex: 0 0 calc(33.333% - 0.833rem); /* 3 cards on desktop */
+  cursor: pointer;
+  margin-bottom: 0.25rem; /* Shadow offset buffer */
+}
+
+/* Slider Navigation Buttons */
+.slider-arrow {
+  background: #ffffff;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px var(--ink-dark);
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  flex-shrink: 0;
+  color: var(--ink-dark);
+  z-index: 10;
+}
+
+.slider-arrow:hover:not(:disabled) {
+  transform: translate(-1px, -1px) scale(1.05);
+  box-shadow: 4px 4px 0px var(--ink-dark);
+}
+
+.slider-arrow:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ink-dark);
+}
+
+.slider-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  box-shadow: 1px 1px 0px var(--ink-dark);
+  transform: translate(1px, 1px);
+}
+
+.slider-arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Hourly Details Dialog Sheets */
+.hourly-dialog {
+  max-width: 680px;
+  width: 95%;
+}
+
+.hourly-dialog-content {
+  padding: 2.5rem 3rem 2rem;
+}
+
+.chart-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-left: 1rem;
+  border-bottom: 2px dashed rgba(32, 36, 48, 0.15);
+  padding-bottom: 0.75rem;
+}
+
+.chart-tab-btn {
+  font-family: var(--font-doodle);
+  font-size: 1.15rem;
+  font-weight: bold;
+  padding: 0.35rem 0.85rem;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background-color 0.15s;
+  box-shadow: 2px 2px 0px var(--ink-dark);
+}
+
+.chart-tab-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--ink-dark);
+}
+
+.chart-tab-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--ink-dark);
+}
+
+.chart-tab-btn.active {
+  background-color: var(--marker-active);
+  transform: rotate(-1deg);
+}
+
+/* SVG Chart styles */
+.chart-container-wrapper {
+  position: relative;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-md);
+  background-color: #ffffff;
+  padding: 1.5rem 1.25rem 1rem;
+  box-shadow: 4px 4px 0px var(--ink-dark);
+  margin-bottom: 1.75rem;
+  margin-left: 1rem;
+}
+
+.chart-y-axis-label {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+  font-weight: bold;
+}
+
+.chart-svg-wrapper {
+  width: 100%;
+  height: 190px;
+}
+
+.chart-svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* SVG line/area drawings */
+.chart-line-path {
+  stroke: var(--ink-dark);
+  stroke-width: 3.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: drawChartLine 1.4s ease-out forwards;
+}
+
+.chart-area-path {
+  fill: var(--marker-active);
+  opacity: 0.4;
+  stroke: none;
+}
+
+.chart-dot {
+  stroke: var(--ink-dark);
+  stroke-width: 2.5;
+  fill: #ffffff;
+  transition: r 0.15s, fill 0.15s;
+  cursor: pointer;
+}
+
+.chart-dot:hover {
+  r: 6.5;
+  fill: var(--marker-active);
+}
+
+.chart-axis-line {
+  stroke: var(--ink-dark);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 5,5;
+}
+
+.chart-grid-line {
+  stroke: rgba(32, 36, 48, 0.08);
+  stroke-width: 1.5;
+}
+
+.chart-label-text {
+  font-family: var(--font-doodle);
+  font-size: 0.85rem;
+  fill: var(--ink-secondary);
+  text-anchor: middle;
+}
+
+.chart-label-y-text {
+  font-family: var(--font-doodle);
+  font-size: 0.85rem;
+  fill: var(--ink-secondary);
+  text-anchor: end;
+}
+
+/* Hourly table */
+.hourly-details-list-wrapper {
+  margin-left: 1rem;
+}
+
+.hourly-details-list-wrapper h3 {
+  font-size: 1.35rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  border-bottom: 2.5px dashed var(--ink-dark);
+  padding-bottom: 0.25rem;
+  display: inline-block;
+}
+
+.hourly-details-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  max-height: 170px;
+  overflow-y: auto;
+  padding: 0.25rem;
+  border: 2px dashed rgba(32,36,48,0.1);
+  border-radius: var(--radius-sketch-sm);
+  background: rgba(255,255,255,0.4);
+}
+
+.hourly-details-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.hourly-details-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hourly-details-grid::-webkit-scrollbar-thumb {
+  background: var(--ink-muted);
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+}
+
+.hourly-cell {
+  background-color: #ffffff;
+  border: 2px solid var(--ink-dark);
+  border-radius: var(--radius-sketch-sm);
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  box-shadow: 2px 2px 0px var(--ink-dark);
+}
+
+.hourly-cell-time {
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: var(--ink-secondary);
+}
+
+.hourly-cell-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.hourly-cell-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--ink-dark);
+}
+
+@keyframes drawChartLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Responsive carousel widths */
+@media (max-width: 900px) {
+  .forecast-slider-container .forecast-card {
+    flex: 0 0 calc(50% - 0.625rem); /* 2 cards on tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .forecast-slider-container .forecast-card {
+    flex: 0 0 100%; /* 1 card on mobile */
+  }
+  .slider-arrow {
+    width: 40px;
+    height: 40px;
+  }
+  .hourly-details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hourly-dialog-content {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+}
+
+/* SVG Chart Tooltip Hand-Drawn Styles */
+.chart-point-group {
+  cursor: pointer;
+}
+
+.chart-tooltip {
+  font-family: var(--font-doodle);
+  font-size: 0.85rem;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  
+  /* Outline text shadow for clean contrast on lines */
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  fill: var(--ink-dark);
+}
+
+.chart-point-group:hover .chart-tooltip {
+  opacity: 1;
+}
